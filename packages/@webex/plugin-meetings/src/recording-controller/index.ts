@@ -1,9 +1,9 @@
 import PermissionError from '../common/errors/permission';
+import LoggerProxy from '../common/logs/logger-proxy';
 import {CONTROLS, HTTP_VERBS, SELF_POLICY} from '../constants';
 import MeetingRequest from '../meeting/request';
 import {RecordingAction, RecordingType} from './enums';
 import Util from './util';
-import LoggerProxy from '../common/logs/logger-proxy';
 
 /**
  * @description Recording manages the recording functionality of the meeting object, there should only be one instantation of recording per meeting
@@ -278,7 +278,7 @@ export default class RecordingController {
    * @returns {Promise}
    */
   private recordingFacade(action: RecordingAction): Promise<any> {
-    const premiseRecStatus = Util.isPremiseRecordingEnabled(
+    const isPremiseRecordingEnabled = Util.isPremiseRecordingEnabled(
       this.displayHints,
       this.selfUserPolicies
     );
@@ -287,7 +287,7 @@ export default class RecordingController {
     );
 
     let recordingType: RecordingType;
-    if (premiseRecStatus) {
+    if (isPremiseRecordingEnabled) {
       recordingType = RecordingType.Premise;
     } else {
       recordingType = RecordingType.Cloud;
