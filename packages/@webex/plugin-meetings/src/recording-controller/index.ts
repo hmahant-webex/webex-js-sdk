@@ -278,7 +278,7 @@ export default class RecordingController {
    * @returns {Promise}
    */
   private recordingFacade(action: RecordingAction): Promise<any> {
-    const premiseRecStatus = Util.isPremiseRecordinEnabled(
+    const premiseRecStatus = Util.isPremiseRecordingEnabled(
       this.displayHints,
       this.selfUserPolicies
     );

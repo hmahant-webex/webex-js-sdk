@@ -187,7 +187,7 @@ describe('plugin-meetings', () => {
           );
         });
 
-        it('can start recording when the correct display hint is present and the policy is true', () => {
+        it('can resume recording when the correct display hint is present and the policy is true', () => {
           locusInfo.parsedLocus.info.userDisplayHints.push('RECORDING_CONTROL_RESUME');
 
           assert.equal(

@@ -34,7 +34,7 @@ const canUserStop = (
     displayHints.includes(DISPLAY_HINTS.PREMISE_RECORDING_CONTROL_STOP)) &&
   MeetingUtil.selfSupportsFeature(SELF_POLICY.SUPPORT_NETWORK_BASED_RECORD, userPolicies);
 
-const isPremiseRecordinEnabled = (
+const isPremiseRecordingEnabled = (
   displayHints: Array<string>,
   userPolicies: Record<SELF_POLICY, boolean>
 ): boolean =>
@@ -84,7 +84,7 @@ export default {
   canUserPause,
   canUserResume,
   canUserStop,
-  isPremiseRecordinEnabled,
+  isPremiseRecordingEnabled,
   deriveRecordingStates,
   extractLocusId,
 };
