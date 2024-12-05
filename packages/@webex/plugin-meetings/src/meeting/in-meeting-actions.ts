@@ -26,6 +26,7 @@ interface IInMeetingActions {
   canStartRecording?: boolean;
   canPauseRecording?: boolean;
   canResumeRecording?: boolean;
+  isPremiseRecordinEnabled?: boolean;
   canStopRecording?: boolean;
   canRaiseHand?: boolean;
   canLowerAllHands?: boolean;
@@ -116,6 +117,8 @@ export default class InMeetingActions implements IInMeetingActions {
   canPauseRecording = null;
 
   canResumeRecording = null;
+
+  isPremiseRecordinEnabled = null;
 
   canStopRecording = null;
 
@@ -288,6 +291,7 @@ export default class InMeetingActions implements IInMeetingActions {
     canPauseRecording: this.canPauseRecording,
     canResumeRecording: this.canResumeRecording,
     canStopRecording: this.canStopRecording,
+    isPremiseRecordinEnabled: this.isPremiseRecordinEnabled,
     canRaiseHand: this.canRaiseHand,
     canLowerAllHands: this.canLowerAllHands,
     canLowerSomeoneElsesHand: this.canLowerSomeoneElsesHand,

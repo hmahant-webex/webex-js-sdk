@@ -1,7 +1,7 @@
 import PermissionError from '../common/errors/permission';
 import {CONTROLS, HTTP_VERBS, SELF_POLICY} from '../constants';
 import MeetingRequest from '../meeting/request';
-import RecordingAction from './enums';
+import {RecordingAction, RecordingType} from './enums';
 import Util from './util';
 import LoggerProxy from '../common/logs/logger-proxy';
 
@@ -228,11 +228,12 @@ export default class RecordingController {
 
   /**
    * @param {RecordingAction} action
+   * @param {RecordingType} recordingType
    * @private
    * @memberof RecordingController
    * @returns {Promise}
    */
-  private recordingService(action: RecordingAction): Promise<any> {
+  private recordingService(action: RecordingAction, recordingType: RecordingType): Promise<any> {
     // @ts-ignore
     return this.request.request({
       body: {
@@ -242,6 +243,7 @@ export default class RecordingController {
         recording: {
           action: action.toLowerCase(),
         },
+        recordingType,
       },
       uri: `${this.serviceUrl}/loci/${this.locusId}/recording`,
       method: HTTP_VERBS.PUT,
@@ -276,14 +278,25 @@ export default class RecordingController {
    * @returns {Promise}
    */
   private recordingFacade(action: RecordingAction): Promise<any> {
+    const premiseRecStatus = Util.isPremiseRecordinEnabled(
+      this.displayHints,
+      this.selfUserPolicies
+    );
     LoggerProxy.logger.log(
       `RecordingController:index#recordingFacade --> recording action [${action}]`
     );
 
+    let recordingType: RecordingType;
+    if (premiseRecStatus) {
+      recordingType = RecordingType.Premise;
+    } else {
+      recordingType = RecordingType.Cloud;
+    }
+
     // assumes action is proper cased (i.e., Example)
     if (Util?.[`canUser${action}`](this.displayHints, this.selfUserPolicies)) {
       if (this.serviceUrl) {
-        return this.recordingService(action);
+        return this.recordingService(action, recordingType);
       }
 
       return this.recordingControls(action);
